@@ -47,12 +47,16 @@ argostranslate==1.11.0
 pandas>=1.0,<3.0
 gradio==5.49.1
 onnxruntime-gpu; python_version >= '3.12'
-pyannote-audio==3.4.0; python_version < '3.12'
-pyannote-audio>=4.0.0; python_version >= '3.12'
-huggingface_hub>=0.36.2,<1.0; python_version < '3.12'
-huggingface_hub>=1.0; python_version >= '3.12'
-transformers==4.57.6; python_version < '3.12'
-transformers>=5.0.0; python_version >= '3.12'
+pyannote-audio==3.4.0
+pyannote.core>=5.0.0,<6.0
+pyannote.database>=5.0.1,<6.0
+pyannote.metrics>=3.2,<4.0
+pyannote.pipeline>=3.0.1,<4.0
+semver
+speechbrain
+tensorboardX
+huggingface_hub>=0.36.2,<1.0
+transformers==4.57.6
 coqui-tts[languages]==0.27.5
 piper-tts==1.4.2
 ./ext/py/demucs

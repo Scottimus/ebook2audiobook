@@ -3679,9 +3679,12 @@ def finalize_audiobook(session_id:str)->tuple:
             return _fail(error)
         show_alert(session_id, {'type': 'info', 'msg': 'Combining sentences and chapters…'})
         exported_files = combine_audio_chapters(session_id)
-        if exported_files is None:
+        if not exported_files:
             return _fail('combine_audio_chapters() error: exported_files not created!')
-        session['audiobook'] = exported_files[-1]
+        finished_audiobook = exported_files[-1]
+        finished_dir = os.path.dirname(finished_audiobook)
+        finished_msg = f"Saved to: {finished_audiobook}"
+        session['audiobook'] = finished_audiobook
         filename = os.path.basename(session['ebook'])
         count_ebook = 0
         if session['ebook_mode'] == ebook_modes['DIRECTORY']:
@@ -3693,7 +3696,9 @@ def finalize_audiobook(session_id:str)->tuple:
                 count_ebook = len(session['ebook_list'])
         if count_ebook > 0:
             reset_ebook_session(session_id, force=True, filter_keys=False)
-            show_alert(session_id, {'type': 'success', 'msg': f'{filename} / converted. {count_ebook} ebook(s) conversion remaining…'})
+            session['audiobook'] = finished_audiobook
+            session['audiobooks_dir'] = finished_dir
+            show_alert(session_id, {'type': 'success', 'msg': f'{filename} / converted. {finished_msg}. {count_ebook} ebook(s) conversion remaining…'})
         else:
             if session['ebook_mode'] == ebook_modes['DIRECTORY']:
                 session['ebook_list'] = None
@@ -3710,8 +3715,9 @@ def finalize_audiobook(session_id:str)->tuple:
                     pass
             session['status'] = status_tags['END']
             reset_ebook_session(session_id, force=True, filter_keys=False)
-            show_alert(session_id, {'type': 'success', 'msg': f'{filename} / converted.'})
-            print(f'*********** Session: {session_id} **************\n{session_info}')
+            session['audiobook'] = finished_audiobook
+            session['audiobooks_dir'] = finished_dir
+            show_alert(session_id, {'type': 'success', 'msg': f'{filename} / converted. {finished_msg}'})
         return result(filename, True)
     except Exception as e:
         session['status'] = status_tags['END']

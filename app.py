@@ -79,7 +79,15 @@ def register_dlls()->str|bool:
     found = shutil.which('ffmpeg')
     if found:
         candidates.append(Path(found).parent)
+    for entry in os.environ.get('PATH', '').split(os.pathsep):
+        if entry:
+            candidates.append(Path(entry))
+    seen = set()
     for p in candidates:
+        key = os.path.normcase(str(p))
+        if key in seen:
+            continue
+        seen.add(key)
         if p and p.is_dir() and any(p.glob('avcodec-*.dll')):
             os.add_dll_directory(str(p))
             return str(p)
