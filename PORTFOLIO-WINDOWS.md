@@ -23,6 +23,8 @@ python examples/local_speech_smoke.py examples/short-original.txt --model-dir MO
 
 Use `--device cuda` for a compatible GPU. This small test isolates local speech export. The upstream application's full EPUB parsing, chapter assembly, and UI pipeline require their own complete environment and end-to-end validation.
 
+[Listen to the original-text speech export](examples/short-original.wav), generated with a synthetic system-voice reference.
+
 The compatibility pins reproduce an older environment and are not a general upgrade recommendation. Test them on your target Python/GPU combination. A fresh end-to-end model conversion is tracked separately from the mocked regression checks.
 
 The conversion engine, UI, and model integrations originate in [DrewThomasson/ebook2audiobook](https://github.com/DrewThomasson/ebook2audiobook). The original Apache license and upstream history are retained.
